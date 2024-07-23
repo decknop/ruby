@@ -1,7 +1,6 @@
 // importando dependencias
 const { Client, Events, GatewayIntentBits } = require('discord.js')
 require('dotenv').config(); // <-- Gestion de variables de entorno para el token
-const schedule = require('node-schedule');
 
 // Obtenemos el token de nuestras variables de entorno
 const TOKEN = process.env.TOKEN;
@@ -22,10 +21,6 @@ const client = new Client({
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
-
-    schedule.scheduleJob('0 9 * * *', () => {
-        eventsCommand.run({ client }).catch(console.error);
-    });
 });
   
 client.on(Events.MessageCreate, async(message) => {
