@@ -15,8 +15,8 @@ WORKDIR /app
 
 RUN cp -r repo/ruby/* . && rm -rf repo/
 
-# Copy credentials
-COPY
+# Copy token
+COPY config.json /app
 
 # Install project dependencies
 RUN npm install
