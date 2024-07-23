@@ -1,9 +1,7 @@
 // importando dependencias
 const { Client, Events, GatewayIntentBits } = require('discord.js')
-require('dotenv').config(); // <-- Gestion de variables de entorno para el token
-
-// Obtenemos el token de nuestras variables de entorno
-const TOKEN = process.env.TOKEN;
+require('dotenv').config(); // <-- Gestion de variables de entorno
+const { token } = require('./config.json'); // <-- Gestion de archivo de configuracion
 
 // Definimos el prefijo que funcionara como trigger a los comandos
 const PREFIX = '!';
@@ -44,4 +42,4 @@ client.on(Events.MessageCreate, async(message) => {
 // Exporta el prefijo para que otros archivos puedan usarlo
 module.exports = { PREFIX };
 
-client.login(TOKEN);
+client.login(token);
