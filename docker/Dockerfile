@@ -15,8 +15,8 @@ WORKDIR /app
 
 RUN cp -r repo/ruby/* . && rm -rf repo/
 
-# Copy package.json and package-lock.json (if exists)
-# COPY package*.json ./
+# Copy credentials
+COPY
 
 # Install project dependencies
 RUN npm install
@@ -25,4 +25,5 @@ RUN npm install
 EXPOSE 3000
 
 # Default command to run the application when the container starts
-CMD ["node index.js"]
+CMD ["echo hello_world"]
+#CMD ["node index.js"]
