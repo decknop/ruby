@@ -1,4 +1,5 @@
 .env
 node_modules/
+docker/config.json
 config.json
 static/
