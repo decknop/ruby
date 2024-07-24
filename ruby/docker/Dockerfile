@@ -8,7 +8,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y git vim && echo 'alias ll="ls -la"' >> ~/.bashrc
 
 # Clone your repository from GitHub using HTTPS
-RUN git clone https://github.com/DECKNOP/ruby.git /app/repo/
+RUN git clone https://github.com/decknop/ruby.git /app/repo/
 
 # Switch to the cloned working directory
 WORKDIR /app
