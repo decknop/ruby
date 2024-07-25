@@ -2,8 +2,8 @@ const { EmbedBuilder, AttachmentBuilder } = require('discord.js');
 const { PREFIX } = require('../index');
 
 const wololo = [
-    "@everyone Ya se la saben banda! Wololo!",
-    "@everyone Kmara prros!! Wololo"
+    "Ya se la saben banda! Wololo!",
+    "Kmara prros!! Wololo"
 ];
 
 
@@ -21,10 +21,10 @@ module.exports = {
 
         const embed = new EmbedBuilder()
             .setColor('Blurple')
-            .setTitle(`${randomPhrase} ${member.user.displayName}`)
+            .setTitle(`${randomPhrase}`)
             .setImage('attachment://nos_vamos_todos.jpg')
         
-        await message.reply({embeds: [embed], files: [attachment]})
+        await message.reply({content: '@everyone', embeds: [embed], files: [attachment]})
         
         await message.delete().catch(err => console.error('Failed to delete original message:', err));
     }
