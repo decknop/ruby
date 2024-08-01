@@ -12,8 +12,13 @@ jobs:
       - uses: actions/checkout@v3
       - name: Build Node.js image
         run: code ../
-      - uses: actions/checkout@v2
-      - uses: actions-ecosystem/action-remove-labels@v1
-        if: ${{ startsWith(fail_on_error, '/remove-labels') }}
+      - name: Remove check label
+        uses: actions/github-script@v6
         with:
-          labels: check
+          script: |
+            github.issues.removeLabel({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              name: 'check'
+            })
