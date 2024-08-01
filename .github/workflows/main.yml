@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build Node.js image
-        run: code ../
+        run: echo "hi"
       - name: Remove check label
         uses: actions/github-script@v6
         with:
