@@ -16,9 +16,15 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            github.issues.removeLabel({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              name: 'check'
-            })
+            try {
+              if (github.context && github.context.payload && github.context.payload.pull_request) {
+                github.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  name: 'check'
+                });
+              }
+            } catch (error) {
+              core.warning(`Error removing label: ${error}`);
+            }
