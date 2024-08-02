@@ -19,6 +19,8 @@ jobs:
         if [[ ! $BRANCH_NAME =~ ^feature/.+ ]]; then
           echo "Error: Branch name '$BRANCH_NAME' does not match 'feature/xx' format."
           exit 1
+        else
+          echo "Branch name accepted!"
         fi
 
     - name: Build Docker image and run container
