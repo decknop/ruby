@@ -23,7 +23,7 @@ jobs:
 
     - name: Build Docker image and run container
       run: |
-        chmod +x up_docker.sh
+        chmod +x ruby/docker/build_node_image.sh
         ruby/docker/build_node_image.sh node
 
     - name: Run tests inside Docker container
