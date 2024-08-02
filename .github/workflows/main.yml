@@ -1,4 +1,4 @@
-name: Build Node.js Image
+name: CI/CD Pipeline
 
 on:
   pull_request:
@@ -6,25 +6,18 @@ on:
     labels: [check]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Build Node.js image
-        run: echo "hi"
-      - name: Remove check label
-        uses: actions/github-script@v6
-        with:
-          script: |
-            try {
-              if (github.context && github.context.payload && github.context.payload.pull_request) {
-                github.issues.removeLabel({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: context.issue.number,
-                  name: 'check'
-                });
-              }
-            } catch (error) {
-              core.warning(`Error removing label: ${error}`);
-            }
+      - name: Check branch name format
+        run: |
+          if [[ ! "$(git rev-parse --abbrev-ref HEAD)" =~ ^feature/ ]]; then
+            echo "Branch name must follow the format 'feature/xx'"
+            exit 1
+          fi
+      - name: Build and run Docker image
+        run: |
+          ruby/docker/build_node_image.sh node
+          # Assuming up_docker.sh handles error checking within the Docker container
+          # and runs 'node index.js'
