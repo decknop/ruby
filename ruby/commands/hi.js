@@ -29,9 +29,18 @@ module.exports = {
             .setColor('Blurple')
             .setTitle(`${randomPhrase} ${member.user.displayName}`)
             .setImage(avatar)
-        
+            .setDescription(`<@!${member.user.id}>`)
+            /*
+            If you want to mention someone in an embed via a bot, append to the description:
+                `<@!${user.id}>`
+            If you want to mention a channel, append to the description:
+                `<#${channel.id}>`
+            If you want to mention a role, append to the description:
+                `<@&${roleId}>`
+            */
+
         await message.reply({embeds: [embed]})
-        
+
         await message.delete().catch(err => console.error('Failed to delete original message:', err));
     }
 }
