@@ -1,14 +1,48 @@
-name: Build Node.js Image
+name: CI/CD Pipeline
 
 on:
   pull_request:
-    types: [labeled]
-    labels: [check]
+    branches:
+      - main  # Ajusta esto a la rama base de tus pull requests
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
+    
     steps:
-      - uses: actions/checkout@v3
-      - name: Build Node.js image
-        run: echo "hello world!"
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Validate branch name
+      run: |
+        BRANCH_NAME="${GITHUB_HEAD_REF}"
+        if [[ ! $BRANCH_NAME =~ ^feature/.+ ]]; then
+          echo "Error: Branch name '$BRANCH_NAME' does not match 'feature/xx' format."
+          exit 1
+        else
+          echo "Branch name accepted!"
+        fi
+
+    - name: Build Docker image and run container
+      run: |
+        chmod +x ruby/docker/build_node_image.sh
+        ruby/docker/build_node_image.sh node
+
+    - name: Run tests inside Docker container
+      run: |
+        CONTAINER_ID=$(docker ps -q --filter "node-container")  # Ajusta según el nombre de tu contenedor
+        if [ -z "$CONTAINER_ID" ]; then
+          echo "Error: Docker container is not running."
+          exit 1
+        fi
+
+        docker exec "$CONTAINER_ID" bash -c "node index.js" | tee result.log
+        if grep -q "Error" result.log; then
+          echo "Error: Tests failed."
+          exit 1
+        fi
+
+    - name: Cleanup
+      run: |
+        docker stop $(docker ps -q --filter "name=node-container")  # Ajusta según el nombre de tu contenedor
+        docker rm $(docker ps -a -q --filter "name=node-container")  # Ajusta según el nombre de tu contenedor

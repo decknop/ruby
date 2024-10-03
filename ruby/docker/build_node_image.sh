@@ -8,7 +8,7 @@ if [ "$#" != 1 ]; then
 fi
 
 build_image() {
-    cp ../config.json .
+    # cp ../config.json .
     docker build -t $NAME_IMAGE-image .
     docker run -t -d -p 3000:3000 --name $NAME_IMAGE-container $NAME_IMAGE-image /bin/bash
     docker exec -it $NAME_IMAGE-container /bin/bash
@@ -25,3 +25,5 @@ if [ $? == "0" ]; then
 fi
 
 build_image
+
+# echo "You got the docker script run!"
